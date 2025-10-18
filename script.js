@@ -95,7 +95,12 @@ window.addEventListener('scroll', () => {
     }
 });
 
-// Form submission handling
+// Initialize EmailJS
+(function() {
+    emailjs.init("PDVOz9OeMKI6Gf3ZJ");
+})();
+
+// Form submission handling with EmailJS
 const contactForm = document.querySelector('.contact-form');
 if (contactForm) {
     contactForm.addEventListener('submit', async function(e) {
@@ -145,7 +150,7 @@ if (contactForm) {
             return;
         }
         
-        // Submit form to server
+        // Submit form with EmailJS
         const submitBtn = this.querySelector('button[type="submit"]');
         const originalText = submitBtn.textContent;
         
@@ -154,28 +159,21 @@ if (contactForm) {
         submitBtn.disabled = true;
         
         try {
-            const response = await fetch('/api/contact', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    name,
-                    email,
-                    linkedin,
-                    company,
-                    message
-                })
-            });
+            // EmailJS template parameters
+            const templateParams = {
+                from_name: name,
+                from_email: email,
+                linkedin: linkedin,
+                company: company,
+                message: message,
+                to_email: 'contact@aifounders.vc' // Your email
+            };
             
-            const result = await response.json();
+            // Send email using EmailJS
+            await emailjs.send('service_35qjh58', 'template_sf2n78i', templateParams);
             
-            if (result.success) {
-                alert(validationMessages[currentLanguage].success);
-                this.reset();
-            } else {
-                throw new Error(result.message || 'Submission failed');
-            }
+            alert(validationMessages[currentLanguage].success);
+            this.reset();
             
         } catch (error) {
             console.error('Error:', error);
