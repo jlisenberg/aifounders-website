@@ -101,10 +101,13 @@ window.addEventListener('scroll', () => {
 })();
 
 // Form submission handling with EmailJS
-const contactForm = document.querySelector('.contact-form');
-if (contactForm) {
-    contactForm.addEventListener('submit', async function(e) {
-        e.preventDefault();
+document.addEventListener('DOMContentLoaded', function() {
+    const contactForm = document.querySelector('#contact-form');
+    if (contactForm) {
+        console.log('Contact form found, adding event listener');
+        contactForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            console.log('Form submitted, preventing default behavior');
         
         // Get form data
         const formData = new FormData(this);
@@ -169,24 +172,41 @@ if (contactForm) {
                 to_email: 'contact@aifounders.vc' // Your email
             };
             
+            console.log('Sending email with params:', templateParams);
+            
             // Send email using EmailJS
-            await emailjs.send('service_35qjh58', 'template_sf2n78i', templateParams);
+            const result = await emailjs.send('service_35qjh58', 'template_sf2n78i', templateParams);
+            console.log('Email sent successfully:', result);
             
             alert(validationMessages[currentLanguage].success);
             this.reset();
             
         } catch (error) {
-            console.error('Error:', error);
-            const errorMessage = currentLanguage === 'es' 
-                ? 'Error al enviar la aplicación. Por favor, inténtalo de nuevo.'
-                : 'Error submitting application. Please try again.';
+            console.error('EmailJS Error:', error);
+            console.error('Error details:', error.text || error.message);
+            
+            // Show specific error message
+            let errorMessage;
+            if (error.text) {
+                errorMessage = `Error: ${error.text}`;
+            } else if (error.message) {
+                errorMessage = `Error: ${error.message}`;
+            } else {
+                errorMessage = currentLanguage === 'es' 
+                    ? 'Error al enviar la aplicación. Por favor, inténtalo de nuevo.'
+                    : 'Error submitting application. Please try again.';
+            }
+            
             alert(errorMessage);
         } finally {
             submitBtn.textContent = originalText;
             submitBtn.disabled = false;
         }
-    });
-}
+        });
+    } else {
+        console.log('Contact form not found');
+    }
+});
 
 // Intersection Observer for animations
 const observerOptions = {
