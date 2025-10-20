@@ -53,14 +53,14 @@ body {
 }
 
 .logo-img {
-    height: 28px;
+    height: 1.5rem; /* igual al tamaño del título anterior (~24px) */
     width: auto;
     display: block;
 }
 
 @media (max-width: 768px) {
     .logo-img {
-        height: 24px;
+        height: 1.25rem; /* ~20px en mobile */
     }
 }
 
