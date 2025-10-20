@@ -53,15 +53,26 @@ body {
 }
 
 .logo-img {
-    height: 3.375rem; /* +50% respecto a 2.25rem */
+    height: 2.7rem; /* reducido 20% desde 3.375rem */
     width: auto;
     display: block;
+    vertical-align: middle;
 }
 
 @media (max-width: 768px) {
     .logo-img {
-        height: 2.8125rem; /* +50% respecto a 1.875rem */
+        height: 2.25rem; /* reducido 20% desde 2.8125rem */
     }
+}
+
+/* Alinear verticalmente el logo en el header */
+.nav-logo {
+    display: flex;
+    align-items: center;
+}
+
+.logo-link {
+    line-height: 1;
 }
 
 .nav-menu {
