@@ -45,6 +45,25 @@ body {
     font-size: 1.5rem;
 }
 
+/* Logo image styles */
+.logo-link {
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none;
+}
+
+.logo-img {
+    height: 28px;
+    width: auto;
+    display: block;
+}
+
+@media (max-width: 768px) {
+    .logo-img {
+        height: 24px;
+    }
+}
+
 .nav-menu {
     display: flex;
     list-style: none;
